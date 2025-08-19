@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import "../types/express";
 
 // Example JWT-based authentication middleware
 export function authenticate(req: Request, res: Response, next: NextFunction) {
