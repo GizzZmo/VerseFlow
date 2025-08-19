@@ -8,8 +8,7 @@ interface BeatCardProps {
   onSelectBeat: () => void;
 }
 
-const BeatCard: React.FC<BeatCardProps> = ({ beat, isPlaying, onSelectBeat }) => {
-
+const BeatCard: React.FC<BeatCardProps> = React.memo(({ beat, isPlaying, onSelectBeat }) => {
   const cardClasses = `bg-gray-800 rounded-lg overflow-hidden shadow-lg border border-gray-700/50 group transform transition-all duration-300 hover:scale-105 hover:shadow-purple-500/20 ${isPlaying ? 'border-purple-500 shadow-purple-500/30 ring-2 ring-purple-500' : ''}`;
 
   return (
@@ -49,6 +48,8 @@ const BeatCard: React.FC<BeatCardProps> = ({ beat, isPlaying, onSelectBeat }) =>
       </div>
     </div>
   );
-};
+});
+
+BeatCard.displayName = 'BeatCard';
 
 export default BeatCard;

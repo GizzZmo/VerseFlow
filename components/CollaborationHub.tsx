@@ -1,9 +1,12 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { MOCK_PROJECTS, MOCK_TALENT_PROFILES } from '../constants';
 import { CollaborationProject, TalentProfile, CurrentUser, Skill } from '../types';
 import SearchBar from './SearchBar';
 import ProjectCard from './ProjectCard';
 import PostProjectModal from './PostProjectModal';
+import { EmptyState } from './ui';
+import { useModal } from '../hooks';
+import { filterProjects, generateId } from '../utils/helpers';
 
 interface CollaborationHubProps {
   currentUser: CurrentUser | null;
@@ -12,7 +15,7 @@ interface CollaborationHubProps {
 const CollaborationHub: React.FC<CollaborationHubProps> = ({ currentUser }) => {
   const [projects, setProjects] = useState<CollaborationProject[]>(MOCK_PROJECTS);
   const [searchTerm, setSearchTerm] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { isOpen: isModalOpen, open: openModal, close: closeModal } = useModal();
   
   // In a real app, this would be a more efficient lookup, perhaps from a context or a store.
   const talentMap = useMemo(() => {
@@ -27,26 +30,22 @@ const CollaborationHub: React.FC<CollaborationHubProps> = ({ currentUser }) => {
     }, {} as Record<number, TalentProfile>);
   }, [currentUser]);
 
-  const handlePostProject = (projectData: { title: string; description: string; requiredSkills: Skill[] }) => {
+  const handlePostProject = useCallback((projectData: { title: string; description: string; requiredSkills: Skill[] }) => {
     if (!currentUser) return;
     const newProject: CollaborationProject = {
       ...projectData,
-      id: Date.now(), // Use a simple unique ID for demonstration
+      id: generateId(),
       postedBy: currentUser.id,
     };
     setProjects(prevProjects => [newProject, ...prevProjects]);
-    setIsModalOpen(false);
-  };
+  }, [currentUser]);
+
+  const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  }, []);
 
   const filteredProjects = useMemo(() => {
-    return projects.filter(project => {
-      const lowercasedTerm = searchTerm.toLowerCase();
-      const matchesTitle = project.title.toLowerCase().includes(lowercasedTerm);
-      const matchesDescription = project.description.toLowerCase().includes(lowercasedTerm);
-      const matchesSkills = project.requiredSkills.some(skill => skill.toLowerCase().includes(lowercasedTerm));
-      
-      return matchesTitle || matchesDescription || matchesSkills;
-    });
+    return filterProjects(projects, searchTerm);
   }, [projects, searchTerm]);
 
   return (
@@ -60,12 +59,12 @@ const CollaborationHub: React.FC<CollaborationHubProps> = ({ currentUser }) => {
         <div className="flex-grow mb-4 md:mb-0">
             <SearchBar 
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)} 
+              onChange={handleSearchChange} 
             />
         </div>
         {currentUser && (
             <button
-                onClick={() => setIsModalOpen(true)}
+                onClick={openModal}
                 className="w-full md:w-auto flex-shrink-0 bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-6 rounded-full transition-colors flex items-center justify-center"
             >
                 <i className="fas fa-plus-circle mr-2"></i>
@@ -82,17 +81,17 @@ const CollaborationHub: React.FC<CollaborationHubProps> = ({ currentUser }) => {
           })}
         </div>
       ) : (
-        <div className="text-center py-16 px-4 bg-gray-800 rounded-lg">
-          <i className="fas fa-users-slash text-5xl text-gray-500"></i>
-          <h3 className="mt-4 text-xl font-semibold text-white">No Matching Projects</h3>
-          <p className="mt-1 text-gray-400">Try a different search term to find a collaboration.</p>
-        </div>
+        <EmptyState
+          icon="fas fa-users-slash"
+          title="No Matching Projects"
+          description="Try a different search term to find a collaboration."
+        />
       )}
       
       {currentUser && (
         <PostProjectModal 
             isOpen={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
+            onClose={closeModal}
             onPostProject={handlePostProject}
         />
       )}

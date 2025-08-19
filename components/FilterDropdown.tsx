@@ -8,7 +8,7 @@ interface FilterDropdownProps {
   onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-const FilterDropdown: React.FC<FilterDropdownProps> = ({ label, options, value, onChange }) => {
+const FilterDropdown: React.FC<FilterDropdownProps> = React.memo(({ label, options, value, onChange }) => {
   return (
     <div className="flex-shrink-0">
       <select
@@ -24,6 +24,8 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({ label, options, value, 
       </select>
     </div>
   );
-};
+});
+
+FilterDropdown.displayName = 'FilterDropdown';
 
 export default FilterDropdown;
