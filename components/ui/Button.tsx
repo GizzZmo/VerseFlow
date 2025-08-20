@@ -21,7 +21,6 @@ const sizeClasses = {
   md: 'py-2 px-4 text-sm',
   lg: 'py-3 px-6 text-base',
 };
-
 const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
   size = 'md',
