@@ -16,7 +16,6 @@ const maxWidthClasses = {
   xl: 'max-w-xl',
   '2xl': 'max-w-2xl',
 };
-
 const BaseModal: React.FC<BaseModalProps> = ({ 
   isOpen, 
   onClose, 
