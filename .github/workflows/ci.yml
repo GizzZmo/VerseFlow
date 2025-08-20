@@ -48,7 +48,6 @@ jobs:
         name: build-files-node-${{ matrix.node-version }}
         path: |
           dist/
-          node_modules/
         retention-days: 7
 
   lint:
