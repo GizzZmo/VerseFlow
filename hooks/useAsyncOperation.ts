@@ -22,7 +22,12 @@ export const useAsyncOperation = <T>(): UseAsyncOperationReturn<T> => {
       const result = await asyncFn();
       setData(result);
     } catch (err: any) {
-      setError(err.message || 'An unknown error occurred.');
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An unknown error occurred.');
+      }
     } finally {
       setIsLoading(false);
     }
