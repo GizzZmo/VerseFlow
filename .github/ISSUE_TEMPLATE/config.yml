@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Community Discussions
+    url: https://github.com/GizzZmo/VerseFlow/discussions
+    about: Ask questions, share ideas, and connect with the community
+  - name: 🔒 Security Issues
+    url: https://github.com/GizzZmo/VerseFlow/security/advisories
+    about: Report security vulnerabilities privately
