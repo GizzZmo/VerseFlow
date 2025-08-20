@@ -60,7 +60,7 @@ const AiSuggestionModal: React.FC<AiSuggestionModalProps> = ({ isOpen, onClose, 
           placeholder="e.g., 'A sad song about a rainy night in the city' or 'High-energy hype track for a workout'"
           className="h-28"
           disabled={isLoading}
-          error={!prompt.trim() && error ? 'Please enter a vibe or theme.' : undefined}
+          error={!prompt.trim() ? 'Please enter a vibe or theme.' : undefined}
         />
         
         <Button
