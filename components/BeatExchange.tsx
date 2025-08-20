@@ -10,9 +10,10 @@ interface BeatExchangeProps {
   currentBeat: Beat | null;
   isPlaying: boolean;
   onSelectBeat: (beat: Beat) => void;
+  onBeatsLoad?: (beats: Beat[]) => void;
 }
 
-const BeatExchange: React.FC<BeatExchangeProps> = ({ currentBeat, isPlaying, onSelectBeat }) => {
+const BeatExchange: React.FC<BeatExchangeProps> = ({ currentBeat, isPlaying, onSelectBeat, onBeatsLoad }) => {
   const [beats, setBeats] = useState<Beat[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedMood, setSelectedMood] = useState<string>('all');
@@ -32,6 +33,7 @@ const BeatExchange: React.FC<BeatExchangeProps> = ({ currentBeat, isPlaying, onS
       
       if (fetchedBeats && fetchedBeats.length > 0) {
         setBeats(fetchedBeats);
+        onBeatsLoad?.(fetchedBeats);
       } else {
         // This case is unlikely but handles a complete failure.
         setError("Could not load any beats. Please try again later.");
