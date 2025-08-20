@@ -35,7 +35,7 @@ export const filterProjects = (projects: CollaborationProject[], searchTerm: str
 /**
  * Generate a simple unique ID for demonstration purposes
  */
-export const generateId = (): number => Date.now();
+export const generateId = (): number => Math.round(Math.random() * 1_000_000_000);
 
 /**
  * Debounce function to limit the frequency of function calls
