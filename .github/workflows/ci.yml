@@ -92,7 +92,6 @@ jobs:
 
     - name: Run npm audit
       run: npm audit --audit-level=high || echo "Security vulnerabilities found - review required"
-      continue-on-error: true
 
   deploy:
     runs-on: ubuntu-latest
