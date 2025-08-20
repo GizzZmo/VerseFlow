@@ -6,7 +6,7 @@ interface SearchBarProps {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ value, onChange }) => {
+const SearchBar: React.FC<SearchBarProps> = React.memo(({ value, onChange }) => {
   return (
     <div className="relative w-full">
       <span className="absolute inset-y-0 left-0 flex items-center pl-3">
@@ -21,6 +21,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ value, onChange }) => {
       />
     </div>
   );
-};
+});
+
+SearchBar.displayName = 'SearchBar';
 
 export default SearchBar;

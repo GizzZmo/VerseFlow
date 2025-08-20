@@ -1,10 +1,14 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { searchSoundCloudBeats } from '../services/soundcloudService';
 import { Beat, Mood, Key, AiSuggestion } from '../types';
 import BeatCard from './BeatCard';
 import FilterDropdown from './FilterDropdown';
 import SearchBar from './SearchBar';
 import AiSuggestionModal from './AiSuggestionModal';
+import { LoadingSpinner, ErrorMessage, EmptyState } from './ui';
+import { useModal } from '../hooks';
+import { filterBeats } from '../utils/helpers';
+import { FILTER_OPTIONS } from '../utils/constants';
 
 interface BeatExchangeProps {
   currentBeat: Beat | null;
@@ -18,9 +22,9 @@ const BeatExchange: React.FC<BeatExchangeProps> = ({ currentBeat, isPlaying, onS
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedMood, setSelectedMood] = useState<string>('all');
   const [selectedKey, setSelectedKey] = useState<string>('all');
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { isOpen: isModalOpen, open: openModal, close: closeModal } = useModal();
 
   useEffect(() => {
     const fetchBeats = async () => {
@@ -46,40 +50,38 @@ const BeatExchange: React.FC<BeatExchangeProps> = ({ currentBeat, isPlaying, onS
 
 
   const filteredBeats = useMemo(() => {
-    return beats.filter(beat => {
-      const matchesSearch = beat.title.toLowerCase().includes(searchTerm.toLowerCase()) || beat.producer.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesMood = selectedMood === 'all' || beat.mood === selectedMood;
-      const matchesKey = selectedKey === 'all' || beat.key === selectedKey;
-      return matchesSearch && matchesMood && matchesKey;
-    });
+    return filterBeats(beats, searchTerm, selectedMood, selectedKey);
   }, [beats, searchTerm, selectedMood, selectedKey]);
 
-  const applyAiSuggestion = (suggestion: AiSuggestion) => {
+  const applyAiSuggestion = useCallback((suggestion: AiSuggestion) => {
     setSelectedMood(suggestion.mood);
     setSelectedKey(suggestion.key);
-    // You could also adjust a BPM slider here if you had one
-    setIsModalOpen(false);
-  };
+  }, []);
+
+  const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  }, []);
+
+  const handleMoodChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedMood(e.target.value);
+  }, []);
+
+  const handleKeyChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedKey(e.target.value);
+  }, []);
   
   const renderContent = () => {
     if (isLoading) {
       return (
-        <div className="text-center py-16 px-4 bg-gray-800 rounded-lg">
-          <i className="fas fa-spinner fa-spin text-5xl text-purple-400"></i>
-          <h3 className="mt-4 text-xl font-semibold text-white">Loading Beats...</h3>
-          <p className="mt-1 text-gray-400">Finding the perfect instrumentals.</p>
-        </div>
+        <LoadingSpinner 
+          message="Loading Beats..." 
+          description="Finding the perfect instrumentals." 
+        />
       );
     }
 
     if (error) {
-       return (
-        <div className="text-center py-16 px-4 bg-red-900/20 border border-red-500/50 rounded-lg">
-          <i className="fas fa-exclamation-triangle text-5xl text-red-400"></i>
-          <h3 className="mt-4 text-xl font-semibold text-white">Something Went Wrong</h3>
-          <p className="mt-1 text-red-300">{error}</p>
-        </div>
-      );
+      return <ErrorMessage message={error} />;
     }
     
     if (filteredBeats.length > 0) {
@@ -98,11 +100,11 @@ const BeatExchange: React.FC<BeatExchangeProps> = ({ currentBeat, isPlaying, onS
     }
 
     return (
-       <div className="text-center py-16 px-4 bg-gray-800 rounded-lg">
-          <i className="fas fa-compact-disc text-5xl text-gray-500 animate-spin-slow"></i>
-          <h3 className="mt-4 text-xl font-semibold text-white">No Beats Found</h3>
-          <p className="mt-1 text-gray-400">Try adjusting your search or filters to find the perfect beat.</p>
-        </div>
+      <EmptyState
+        icon="fas fa-compact-disc animate-spin-slow"
+        title="No Beats Found"
+        description="Try adjusting your search or filters to find the perfect beat."
+      />
     );
   };
 
@@ -116,23 +118,23 @@ const BeatExchange: React.FC<BeatExchangeProps> = ({ currentBeat, isPlaying, onS
 
       <div className="p-4 bg-gray-800/50 rounded-lg backdrop-blur-sm border border-gray-700 space-y-4 md:space-y-0 md:flex md:items-center md:justify-between md:space-x-4">
         <div className="flex-grow">
-          <SearchBar value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+          <SearchBar value={searchTerm} onChange={handleSearchChange} />
         </div>
         <div className="flex items-center space-x-2 sm:space-x-4">
           <FilterDropdown
             label="Mood"
-            options={Object.values(Mood)}
+            options={FILTER_OPTIONS.MOOD}
             value={selectedMood}
-            onChange={(e) => setSelectedMood(e.target.value)}
+            onChange={handleMoodChange}
           />
           <FilterDropdown
             label="Key"
-            options={Object.values(Key)}
+            options={FILTER_OPTIONS.KEY}
             value={selectedKey}
-            onChange={(e) => setSelectedKey(e.target.value)}
+            onChange={handleKeyChange}
           />
            <button 
-             onClick={() => setIsModalOpen(true)}
+             onClick={openModal}
              className="flex-shrink-0 bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105"
              title="Get AI Beat Suggestion"
            >
@@ -146,7 +148,7 @@ const BeatExchange: React.FC<BeatExchangeProps> = ({ currentBeat, isPlaying, onS
 
       <AiSuggestionModal 
         isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)}
+        onClose={closeModal}
         onApplySuggestion={applyAiSuggestion}
       />
     </div>

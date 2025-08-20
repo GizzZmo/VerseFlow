@@ -1,5 +1,3 @@
-import React, { useState } from 'react';
-import { UserProvider } from './contexts/UserContext';
 import Header from './components/Header';
 import BeatExchange from './components/BeatExchange';
 import CollaborationHub from './components/CollaborationHub';
@@ -19,22 +17,22 @@ const AppContent: React.FC = () => {
   
   const { currentUser, setCurrentUser, addNotification } = useUser();
 
-  const handleSelectBeat = (beat: Beat) => {
+  const handleSelectBeat = useCallback((beat: Beat) => {
     if (currentBeat?.id === beat.id) {
       setIsPlaying(!isPlaying);
     } else {
       setCurrentBeat(beat);
       setIsPlaying(true);
     }
-  };
+  }, [currentBeat?.id, isPlaying]);
   
-  const handlePlayPause = () => {
+  const handlePlayPause = useCallback(() => {
     if (currentBeat) {
       setIsPlaying(!isPlaying);
     }
-  };
+  }, [currentBeat, isPlaying]);
 
-  const handleLogin = async () => {
+  const handleLogin = useCallback(async () => {
     try {
       const user = await signInWithSoundCloud();
       setCurrentUser(user);
@@ -47,11 +45,11 @@ const AppContent: React.FC = () => {
     } catch (error) {
       console.error("Login simulation failed:", error);
     }
-  };
+  }, []);
 
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     setCurrentUser(null);
-  };
+  }, []);
 
   const renderActiveView = () => {
     switch (activeView) {
