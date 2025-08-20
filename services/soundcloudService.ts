@@ -65,6 +65,9 @@ const getMockBeats = (): Beat[] => {
         .filter((beat): beat is Beat => beat !== null);
 }
 
+// Export the mapping function for use in backend
+export const mapSoundCloudTrackToBeat = mapTrackToBeat;
+
 export const searchSoundCloudBeats = async (query: string): Promise<Beat[]> => {
   const clientId = getSoundCloudClientId();
   

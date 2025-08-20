@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { CurrentUser } from '../types';
+import NotificationPanel from './NotificationPanel';
+import UserProfileModal from './UserProfileModal';
+import { useUser } from '../contexts/UserContext';
 
-type View = 'beatExchange' | 'cypher';
+type View = 'beatExchange' | 'cypher' | 'favorites';
 
 interface HeaderProps {
   activeView: View;
@@ -12,44 +15,69 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ activeView, onNavigate, currentUser, onLogin, onLogout }) => {
+  const { favorites } = useUser();
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  
   const linkClasses = (view: View) => 
     `cursor-pointer hover:text-purple-400 transition-colors pb-1 ${
       activeView === view ? 'text-purple-400 border-b-2 border-purple-400' : 'text-gray-300'
     }`;
 
   return (
-    <header className="bg-gray-900/80 backdrop-blur-sm sticky top-0 z-50 border-b border-gray-700">
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <div className="flex items-center space-x-2">
-           <i className="fas fa-headphones-alt text-3xl text-purple-400"></i>
-           <h1 className="text-2xl font-bold tracking-tight text-white">Verse<span className="text-purple-400">Flow</span></h1>
-        </div>
-        <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-          <a onClick={() => onNavigate('beatExchange')} className={linkClasses('beatExchange')}>Beat Exchange</a>
-          <a onClick={() => onNavigate('cypher')} className={linkClasses('cypher')}>The Cypher</a>
-          <a href="#" className="text-gray-500 cursor-not-allowed">Distribution</a>
-          <a href="#" className="text-gray-500 cursor-not-allowed">Academy</a>
-        </nav>
-        <div className="flex items-center space-x-4">
-          {currentUser ? (
-            <>
-              <div className="flex items-center space-x-2">
-                <img src={currentUser.avatar} alt={currentUser.name} className="w-9 h-9 rounded-full border-2 border-purple-400" />
-                <span className="text-sm font-medium hidden sm:block">{currentUser.name}</span>
-              </div>
-              <button onClick={onLogout} className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full transition-colors text-sm">
-                Sign Out
+    <>
+      <header className="bg-gray-900/80 backdrop-blur-sm sticky top-0 z-50 border-b border-gray-700">
+        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+          <div className="flex items-center space-x-2">
+             <i className="fas fa-headphones-alt text-3xl text-purple-400"></i>
+             <h1 className="text-2xl font-bold tracking-tight text-white">Verse<span className="text-purple-400">Flow</span></h1>
+          </div>
+          <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
+            <a onClick={() => onNavigate('beatExchange')} className={linkClasses('beatExchange')}>Beat Exchange</a>
+            <a onClick={() => onNavigate('cypher')} className={linkClasses('cypher')}>The Cypher</a>
+            {currentUser && (
+              <a onClick={() => onNavigate('favorites')} className={linkClasses('favorites')}>
+                <i className="fas fa-heart mr-1"></i>
+                Favorites
+                {favorites.length > 0 && (
+                  <span className="ml-1 bg-purple-600 text-white text-xs px-2 py-1 rounded-full">
+                    {favorites.length}
+                  </span>
+                )}
+              </a>
+            )}
+            <a href="#" className="text-gray-500 cursor-not-allowed">Distribution</a>
+            <a href="#" className="text-gray-500 cursor-not-allowed">Academy</a>
+          </nav>
+          <div className="flex items-center space-x-4">
+            {currentUser && <NotificationPanel />}
+            {currentUser ? (
+              <>
+                <button 
+                  onClick={() => setIsProfileModalOpen(true)}
+                  className="flex items-center space-x-2 hover:bg-gray-800/50 rounded-lg p-2 transition-colors"
+                >
+                  <img src={currentUser.avatar} alt={currentUser.name} className="w-9 h-9 rounded-full border-2 border-purple-400" />
+                  <span className="text-sm font-medium hidden sm:block">{currentUser.name}</span>
+                </button>
+                <button onClick={onLogout} className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full transition-colors text-sm">
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <button onClick={onLogin} className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded-full transition-colors text-sm flex items-center">
+                 <i className="fab fa-soundcloud mr-2"></i>
+                 Sign In
               </button>
-            </>
-          ) : (
-            <button onClick={onLogin} className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded-full transition-colors text-sm flex items-center">
-               <i className="fab fa-soundcloud mr-2"></i>
-               Sign In
-            </button>
-          )}
+            )}
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+      
+      <UserProfileModal 
+        isOpen={isProfileModalOpen}
+        onClose={() => setIsProfileModalOpen(false)}
+      />
+    </>
   );
 };
 

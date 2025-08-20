@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Beat } from '../types';
+import { useUser } from '../contexts/UserContext';
 
 interface BeatCardProps {
   beat: Beat;
@@ -8,13 +9,27 @@ interface BeatCardProps {
   onSelectBeat: () => void;
 }
 
-const BeatCard: React.FC<BeatCardProps> = React.memo(({ beat, isPlaying, onSelectBeat }) => {
   const cardClasses = `bg-gray-800 rounded-lg overflow-hidden shadow-lg border border-gray-700/50 group transform transition-all duration-300 hover:scale-105 hover:shadow-purple-500/20 ${isPlaying ? 'border-purple-500 shadow-purple-500/30 ring-2 ring-purple-500' : ''}`;
 
   return (
     <div className={cardClasses}>
       <div className="relative">
         <img src={beat.artwork} alt={beat.title} className="w-full h-48 object-cover" />
+        
+        {/* Favorite button */}
+        <button
+          onClick={handleFavoriteClick}
+          className={`absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
+            isFav 
+              ? 'bg-red-500 text-white hover:bg-red-600' 
+              : 'bg-black/50 text-white hover:bg-black/70'
+          }`}
+          aria-label={isFav ? 'Remove from favorites' : 'Add to favorites'}
+        >
+          <i className={`fas fa-heart text-sm ${isFav ? '' : 'text-gray-300'}`}></i>
+        </button>
+        
+        {/* Play button overlay */}
         <div className={`absolute inset-0 bg-black/50 flex items-center justify-center transition-opacity duration-300 ${isPlaying ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
           <button 
             onClick={onSelectBeat} 
@@ -36,6 +51,11 @@ const BeatCard: React.FC<BeatCardProps> = React.memo(({ beat, isPlaying, onSelec
             <span className="inline-block bg-gray-700 rounded-full px-3 py-1 text-xs font-semibold text-purple-300 mr-2 mb-2">
                 #{beat.mood}
             </span>
+            {isFav && (
+              <span className="inline-block bg-red-600/20 border border-red-500/50 rounded-full px-3 py-1 text-xs font-semibold text-red-400">
+                <i className="fas fa-heart mr-1"></i>Favorited
+              </span>
+            )}
         </div>
         <div className="mt-4 flex space-x-2">
           <button className="flex-1 bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-3 rounded-lg text-xs transition-colors">
