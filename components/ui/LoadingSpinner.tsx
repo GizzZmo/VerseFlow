@@ -10,6 +10,7 @@ const sizeClasses = {
   sm: 'text-2xl',
   md: 'text-4xl',
   lg: 'text-5xl',
+};
 
 const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ 
   size = 'lg', 

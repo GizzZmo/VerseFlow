@@ -21,7 +21,6 @@ export const useAsyncOperation = <T>(): UseAsyncOperationReturn<T> => {
     try {
       const result = await asyncFn();
       setData(result);
-    } catch (err: any) {
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);

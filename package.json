@@ -1,12 +1,36 @@
 {
-  "name": "verseflow:-beat-exchange",
+  "name": "verseflow",
+  "description": "VerseFlow: Beat Exchange - A digital ecosystem for independent rap artists featuring AI-powered beat discovery and artist collaboration",
+  "version": "1.0.0",
   "private": true,
-  "version": "0.0.0",
   "type": "module",
+  "author": "VerseFlow Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GizzZmo/VerseFlow.git"
+  },
+  "bugs": {
+    "url": "https://github.com/GizzZmo/VerseFlow/issues"
+  },
+  "homepage": "https://github.com/GizzZmo/VerseFlow#readme",
+  "keywords": [
+    "music",
+    "rap",
+    "beats",
+    "collaboration",
+    "ai",
+    "producers",
+    "artists",
+    "hip-hop",
+    "music-production"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint . --ext .ts,.tsx",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@google/genai": "^1.15.0",
