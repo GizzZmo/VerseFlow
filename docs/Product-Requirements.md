@@ -58,7 +58,7 @@ Unlike other platforms, VerseFlow is a vertically integrated ecosystem tailored 
 
 ---
 
-# User Stories & Feature Specs
+# User Stories
 
 ## Beat Exchange
 - As a rapper, I want to search for beats by genre, mood, and BPM so I can find instrumentals that fit my style.
