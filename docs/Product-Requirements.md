@@ -45,7 +45,11 @@ Unlike other platforms, VerseFlow is a vertically integrated ecosystem tailored 
 - User growth, engagement, revenue, retention
 
 ## Technical Requirements
-- Scalable architecture, secure file sharing, streaming integrations
+- **Supported File Formats:** Audio uploads (WAV, MP3, FLAC, AIFF), beat stems (ZIP, RAR), images (JPG, PNG, SVG), documents (PDF).
+- **Storage Requirements:** Cloud-based storage (AWS S3 or Google Cloud Storage) with redundancy, daily backups, and versioning for collaboration workspaces.
+- **API Integrations:** Streaming platform APIs (Spotify, Apple Music, Tidal, YouTube Music), payment gateways (Stripe, PayPal), NFT minting (OpenSea, custom ERC-721), email/SMS notifications (SendGrid, Twilio).
+- **Security Standards:** End-to-end encryption for file sharing, OAuth 2.0 authentication, role-based access control, GDPR and CCPA compliance, regular vulnerability assessments.
+- **Scalability:** Microservices architecture, containerization (Docker), orchestration (Kubernetes), auto-scaling, CDN for media delivery.
 
 ---
 
