@@ -40,7 +40,17 @@ Unlike other platforms, VerseFlow is a vertically integrated ecosystem tailored 
 ## Monetization Model
 - Artist subscription tiers (Free, Pro, Studio)
 - Platform fees on beat sales, subscriptions, merch, and promotions
-
+- Artist subscription tiers:
+    - **Free:** $0/month, limited features
+    - **Pro:** $9.99/month, advanced analytics, priority support
+    - **Studio:** $24.99/month, full feature access, premium distribution
+- Platform fees:
+    - **Beat sales:** 15% commission per transaction
+    - **Fan subscriptions:** 10% platform fee on subscription payments
+    - **Merch sales:** 12% fee per item sold
+    - **Promotional tools:** 10% fee on promotional spend
+    - **NFT minting:** 5% fee on primary sales
+    - *All rates are subject to change based on market conditions and platform policies.*
 ## Success Metrics
 - Monthly Active Users (MAU) > 10,000 within 12 months of launch
 - User retention rate > 70% at 30 days
