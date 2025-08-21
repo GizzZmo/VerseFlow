@@ -40,10 +40,14 @@
     "react-dom": "^19.1.1"
   },
   "devDependencies": {
+    "@eslint/js": "^9.33.0",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/node": "^22.14.0",
+    "@typescript-eslint/eslint-plugin": "^8.40.0",
+    "@typescript-eslint/parser": "^8.40.0",
     "concurrently": "^8.2.2",
+    "eslint": "^9.33.0",
     "ts-node": "^10.9.1",
     "typescript": "~5.8.2",
     "vite": "^6.2.0"
