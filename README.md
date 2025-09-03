@@ -27,12 +27,12 @@
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-Platform Vision and Mission
+## Platform Vision and Mission
 Vision: To become the definitive digital launchpad for the next generation of rap artists, fostering a global community where creativity, collaboration, and career-building are seamlessly integrated.
 
-Mission: VerseFlow's mission is to dismantle the barriers to entry in the music industry by providing emerging rap artists with a powerful, all-in-one suite of tools for creation, distribution, monetization, and community engagement. We aim to shift the power dynamic, enabling artists to build sustainable careers on their own terms while offering fans an unprecedented level of connection to the music and culture they love.
+### Mission: VerseFlow's mission is to dismantle the barriers to entry in the music industry by providing emerging rap artists with a powerful, all-in-one suite of tools for creation, distribution, monetization, and community engagement. We aim to shift the power dynamic, enabling artists to build sustainable careers on their own terms while offering fans an unprecedented level of connection to the music and culture they love.
 
-Unique Value Proposition:
+### Unique Value Proposition:
 Unlike existing platforms, VerseFlow is not just a hosting service or a social network; it is a vertically integrated ecosystem.
 
 Compared to SoundCloud/Audiomack: While these platforms are excellent for discovery, they lack integrated professional tools for collaboration, multi-channel monetization (beyond basic royalties), and direct distribution. VerseFlow brings these essential career-building functions into one native environment.
