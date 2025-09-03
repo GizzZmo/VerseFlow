@@ -1,5 +1,5 @@
 import React from 'react';
-const SDGs = [ 'No Poverty', 'Quality Education', ... ];
+const SDGs = [ 'No Poverty', 'Quality Education' ];
 export function UNDashboard({ stats }) {
   return <div>
     <h2>UN2030 Impact Dashboard</h2>

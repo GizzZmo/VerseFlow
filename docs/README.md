@@ -6,6 +6,8 @@ Welcome to the VerseFlow Wiki! This is your comprehensive guide to understanding
 
 ### 🏠 Getting Started
 - [Home](Home.md) - Welcome and overview
+- [Platform Vision](Platform-Vision.md) - Vision, mission, and value proposition
+- [Product Requirements](Product-Requirements.md) - Detailed feature specifications
 - [Quick Start Guide](Quick-Start-Guide.md) - Get up and running quickly
 - [Installation](Installation.md) - Detailed setup instructions
 - [Configuration](Configuration.md) - Environment and configuration options
@@ -18,6 +20,8 @@ Welcome to the VerseFlow Wiki! This is your comprehensive guide to understanding
 - [User Profiles](User-Profiles.md) - Account and profile management
 
 ### 🏗️ Architecture & Development
+- [Platform Vision](Platform-Vision.md) - Complete platform strategy and proposal
+- [Product Requirements](Product-Requirements.md) - Comprehensive feature documentation
 - [Architecture Overview](Architecture-Overview.md) - System design and structure
 - [API Documentation](API-Documentation.md) - Complete API reference
 - [Database Schema](Database-Schema.md) - Data models and relationships
