@@ -79,7 +79,7 @@ npm run dev
 
 You should see:
 ```
-  VITE v6.2.0  ready in 234 ms
+  VITE v6.3.x  ready in ~200ms
 
   ➜  Local:   http://localhost:5173/
   ➜  Network: use --host to expose

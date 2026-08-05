@@ -1,7 +1,22 @@
+# 🎵 VerseFlow
+
+> The definitive digital launchpad for independent rap artists — featuring AI-powered beat discovery, artist collaboration, and career-building tools in one integrated ecosystem.
+
+[![CI/CD Pipeline](https://github.com/GizzZmo/VerseFlow/actions/workflows/ci.yml/badge.svg)](https://github.com/GizzZmo/VerseFlow/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
+
+---
+
 ## 🚀 Quick Start
 
 ### Prerequisites
 
+- **Node.js** v18.0.0 or higher ([Download](https://nodejs.org/))
+- **npm** 8.0.0 or higher (included with Node.js)
+- **Git** ([Download](https://git-scm.com/))
+- **Gemini API Key** for AI features ([Get one free](https://makersuite.google.com/))
+- **Python 3.12+** for the AI service ([Download](https://www.python.org/))
 
 ### Installation
 
@@ -11,120 +26,197 @@
    cd VerseFlow
    ```
 
-2. **Install dependencies**
+2. **Install Node.js dependencies**
    ```bash
    npm install
    ```
-   
+
+3. **Configure environment**
+   ```bash
+   cp .env.example .env.local
+   # Edit .env.local and add your GEMINI_API_KEY
+   ```
 
 4. **Start the development server**
    ```bash
    npm run dev
    ```
 
-5. **Open your browser**
+5. **Open your browser** at [http://localhost:5173](http://localhost:5173)
 
+🎉 VerseFlow is now running locally!
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+---
 
-## Platform Vision and Mission
-Vision: To become the definitive digital launchpad for the next generation of rap artists, fostering a global community where creativity, collaboration, and career-building are seamlessly integrated.
+## 📦 Project Structure
 
-### Mission: VerseFlow's mission is to dismantle the barriers to entry in the music industry by providing emerging rap artists with a powerful, all-in-one suite of tools for creation, distribution, monetization, and community engagement. We aim to shift the power dynamic, enabling artists to build sustainable careers on their own terms while offering fans an unprecedented level of connection to the music and culture they love.
+```
+VerseFlow/
+├── .github/                 # GitHub Actions workflows and templates
+├── ai_service/              # FastAPI Python AI service (port 8001)
+│   └── main.py              # Beat suggestion AI endpoint
+├── components/              # React frontend components
+│   ├── ui/                  # Reusable UI primitives
+│   ├── AudioPlayer.tsx      # Music playback component
+│   ├── BeatExchange.tsx     # Beat discovery marketplace
+│   ├── CollaborationHub.tsx # Artist collaboration (The Cypher)
+│   └── Header.tsx           # Application header and navigation
+├── contexts/                # React context providers
+│   └── UserContext.tsx      # Global user state management
+├── docs/                    # Project documentation
+├── hooks/                   # Custom React hooks
+├── services/                # Frontend API service layer
+├── src/                     # Express.js backend
+│   ├── routes/              # API route handlers
+│   ├── middleware/          # Express middleware (auth, etc.)
+│   └── app.ts               # Express app configuration
+├── utils/                   # Shared utility functions
+├── types.ts                 # TypeScript type definitions
+├── constants.ts             # Application constants and mock data
+├── App.tsx                  # Main React application component
+├── index.tsx                # Application entry point
+├── package.json             # Node.js dependencies and npm scripts
+├── vite.config.ts           # Vite build configuration
+├── tsconfig.json            # TypeScript config (frontend)
+└── tsconfig.server.json     # TypeScript config (backend)
+```
 
-### Unique Value Proposition:
-Unlike existing platforms, VerseFlow is not just a hosting service or a social network; it is a vertically integrated ecosystem.
+---
 
-Compared to SoundCloud/Audiomack: While these platforms are excellent for discovery, they lack integrated professional tools for collaboration, multi-channel monetization (beyond basic royalties), and direct distribution. VerseFlow brings these essential career-building functions into one native environment.
-Compared to YouTube: YouTube is a video-first platform where music is a component. VerseFlow is music-first, built by and for the rap community. Its tools, community features, and analytics are specifically tailored to the needs of rappers, producers, and their fans, eliminating the need to manage a dozen different services.
-Compared to DistroKid/TuneCore: These are distribution services. VerseFlow integrates distribution as just one piece of a much larger puzzle that includes creation, fan engagement, and direct monetization.
-Target Audience:
+## 🛠️ Available Scripts
 
-Artists:
-Emerging Rappers: Lyrical artists, freestylers, and songwriters looking for beats, collaborators, and a platform to build a fanbase from the ground up.
-Independent Producers: Beatmakers seeking a dedicated marketplace to lease and sell their instrumentals to a targeted audience of vocal artists.
-Vocalists & Engineers: Singers specializing in hooks, ad-libs, and audio engineers offering mixing/mastering services who want to connect with rap projects.
-Fans:
-"Tastemakers" & Early Adopters: Active music listeners who pride themselves on discovering new talent before they break into the mainstream.
-Dedicated Supporters: Fans who desire a deeper connection with artists and are willing to support them directly through financial contributions and community participation.
-Rap Enthusiasts: Listeners passionate about specific sub-genres (e.g., Drill, Lo-fi, Conscious Rap) looking for a curated community space.
-Key Features for Artists
-Creation & Collaboration
-The Beat Exchange: An integrated marketplace where producers can upload beats with tagged metadata (BPM, key, mood, genre). Rappers can filter and search for the perfect instrumental, with flexible licensing options:
-Leasing: Timed licenses for MP3, WAV, and track stems.
-Exclusive Rights: Outright purchase of a beat.
-Producer Profiles: Each producer has a storefront showcasing their catalog, ratings, and sales history.
-The Collaboration Hub ("The Cypher"): A project-based networking space.
-Post a Project: Artists can post a project need, such as "Seeking female vocalist for a hook on a trap beat" or "Producer needed for a 5-track EP."
-Talent Profiles: Users can create profiles highlighting their skills (rapping, production, mixing, vocals), linking to their portfolio of work on VerseFlow.
-In-Project Workspace: A dedicated area for collaborators to share files (.wav, .mp3, project files), manage versions, and communicate via a built-in messenger with timestamped comments on audio tracks.
-Distribution & Monetization
-One-Click Distribution: Seamless, integrated distribution of singles, EPs, and albums to over 150+ streaming services, including Spotify, Apple Music, Tidal, and Amazon Music, directly from the artist's VerseFlow dashboard.
-Diversified Monetization Suite:
-Fan Subscriptions ("The Inner Circle"): A Patreon-style feature allowing artists to offer tiered monthly subscriptions to fans in exchange for exclusive content (e.g., early access to tracks, behind-the-scenes videos, private Q&As, discord access).
-Integrated Merch Shelf: A turnkey solution powered by print-on-demand services. Artists can easily design and sell merchandise (t-shirts, hoodies, hats) with no upfront inventory costs.
-Tip Jar: A simple, one-time payment option on an artist's profile, allowing fans to show appreciation and provide direct financial support.
-Digital Collectibles (NFTs): An easy-to-use tool for minting limited edition digital assets on an environmentally-friendly blockchain. Use cases include tokenized album art, limited edition tracks, or access tokens for exclusive experiences.
-Analytics & Growth
-Unified Analytics Dashboard: A comprehensive dashboard that tracks:
-Streaming Data: Plays, saves, and playlist additions from both VerseFlow and major DSPs.
-Audience Demographics: Listener age, gender, and geographic location.
-Revenue Streams: A clear breakdown of income from royalties, beat sales, subscriptions, merch, and tips.
-Engagement Metrics: Profile views, comment rates, and subscription conversion rates.
-Promotional Toolkit:
-"Track Boost": Artists can pay a small fee to promote their track to a targeted listener demographic on VerseFlow's discovery pages.
-Social Media Snippet Generator: A tool to quickly create shareable, visually appealing video and audio clips for Instagram, TikTok, and Twitter.
-A&R Spotlight: A data-driven and editorially curated section that highlights artists with high-growth potential (e.g., high engagement-to-stream ratio, rapidly growing subscriber base). This section is accessible to verified industry professionals (A&Rs, managers, publishers).
-Community & Education
-Artist-Only Forums ("The Green Room"): Private discussion boards where vetted artists can network, share production techniques, discuss marketing strategies, and ask for advice in a secure environment.
-The VerseFlow Academy: A rich resource library containing:
-Video tutorials on music production, mixing, and mastering.
-Guides on digital marketing, social media branding, and PR.
-Templates for press kits, feature agreements, and release plans.
-Webinars and interviews with successful independent artists and industry experts.
-Key Features for Fans
-Discovery & Curation
-"FlowState" Radio: A personalized algorithm that recommends new tracks and artists based on listening history, likes, and follows.
-Curated Charts & Playlists: Beyond simple "Top 50" charts, VerseFlow will feature:
-Regional Heat Maps: Highlighting trending sounds from specific cities (e.g., "The Chicago Drill Report," "Sounds of Atlanta").
-Sub-Genre Deep Dives: Playlists dedicated to niche genres like Plugg, Conscious Hip-Hop, or Lo-fi Rap.
-Guest Curator Playlists: Weekly takeovers by influential bloggers, producers, and established artists.
-Interaction & Support
-Direct Artist Connection: Fans can comment on tracks, participate in live Q&A sessions, and send direct messages to artists (which artists can choose to make available only to subscribers).
-Unified Support Hub: An artist's profile page serves as a central location for fans to easily support them through the "Inner Circle" subscriptions, Tip Jar, and Merch Shelf.
-Fan Clubs: The public-facing side of the "Inner Circle," where fans can interact with each other, discuss exclusive content, and build a community around an artist they love.
-Community Building
-Fan Profiles: Fans can build their own identity on the platform by creating and sharing public playlists, curating their favorite tracks, and earning badges for being early supporters of artists who later become successful.
-Community Forums: Public discussion boards for debating album releases, rap history, and music industry news.
-Interactive Polls: Artists can engage their fanbase by running polls for things like album art, next single choices, or merch designs, making fans feel like part of the creative process.
-Monetization Model for the Platform
-VerseFlow will generate revenue through a combination of artist subscriptions and platform fees, ensuring the core listening experience for fans remains free.
+```bash
+npm run dev          # Start frontend dev server (http://localhost:5173)
+npm run build        # Build for production (outputs to dist/)
+npm run preview      # Preview the production build (http://localhost:4173)
+npm run lint         # Run ESLint on TypeScript/TSX files
+npm run type-check   # Run TypeScript type checking
+```
 
-Artist Subscription Tiers:
+---
 
-Free Tier ("The Opener"):
-Limited track uploads (e.g., 5 tracks per month).
-Basic analytics.
-Standard distribution with a 15% commission on royalties.
-Ability to purchase beats.
-Pro Tier ("The Headliner") - $15/month:
-Unlimited track uploads.
-Full, advanced analytics dashboard.
-Distribution with 0% commission on royalties.
-Access to Fan Subscriptions, Merch Shelf, and Tip Jar features.
-Access to the VerseFlow Academy.
-Profile verification badge.
-Studio Tier ("The Mogul") - $30/month:
-All "Headliner" features.
-Access to the Collaboration Hub to post and apply for projects.
-Ability to sell beats on the Beat Exchange.
-NFT minting capabilities.
-Access to premium promotional tools at a discount.
-Commission & Transaction Fees:
+## 🤖 AI Service (Python)
 
-Beat Exchange: VerseFlow will take a 12% commission on all beat sales (leases and exclusives) from the producer's earnings.
-Fan Subscriptions & Tips: A 7% platform fee on all revenue generated through the "Inner Circle" and "Tip Jar" features.
-Merchandise Sales: A 10% platform fee on the profit margin of each item sold.
-Promotional Tools: Direct revenue from artists purchasing "Track Boosts" and other promotional placements.
-Unique Selling Proposition (USP)
-VerseFlow distinguishes itself from a crowded field of single-function platforms by being the first truly holistic, career-in-a-box solution designed exclusively for the modern independent rap artist. While competitors offer a place to host music, sell beats, or distribute tracks, VerseFlow integrates the entire creative and commercial lifecycle—from finding a beat in the marketplace and collaborating on a track in the virtual studio, to distributing it globally, building a dedicated fanbase, and monetizing through a diverse suite of tools like subscriptions and merchandise. It is more than a service; it's a partner that empowers artists to build a self-sustaining career and a vibrant community, transforming the daunting DIY path into a streamlined journey from the underground to the main stage.
+The AI beat suggestion service runs separately as a FastAPI app:
+
+```bash
+# Install Python dependencies
+pip3 install fastapi uvicorn
+
+# Start the AI service on port 8001
+cd ai_service
+python3 -m uvicorn main:app --reload --port 8001
+
+# Test it
+curl -X POST http://127.0.0.1:8001/ai/suggest_beat/ \
+  -H "Content-Type: application/json" \
+  -d '{"prompt": "chill vibes"}'
+# Returns: {"suggestion":{"mood":"Chill","key":"Am","bpm":85}}
+```
+
+---
+
+## 🌐 Service Ports
+
+| Service         | Port  | Command                        |
+|----------------|-------|--------------------------------|
+| Frontend (dev) | 5173  | `npm run dev`                  |
+| Frontend (preview) | 4173 | `npm run preview`           |
+| Backend API    | 3001  | Express.js (see `server.ts`)   |
+| AI Service     | 8001  | `uvicorn main:app --port 8001` |
+
+---
+
+## ✨ Key Features
+
+### For Artists
+- **Beat Exchange** — Browse and license beats by mood, BPM, key, and genre
+- **The Cypher (Collaboration Hub)** — Post and apply for collaboration projects
+- **AI Beat Suggestions** — Get personalized beat recommendations
+- **Distribution** — One-click distribution to 150+ streaming services
+- **Monetization** — Fan subscriptions, merch shelf, and tip jar
+- **Analytics Dashboard** — Track streams, revenue, and audience growth
+
+### For Fans
+- **FlowState Radio** — Personalized discovery algorithm
+- **Curated Charts** — Regional and sub-genre playlists
+- **Fan Clubs** — Connect with artists and fellow fans
+- **Direct Support** — Subscriptions, tips, and merch
+
+---
+
+## 🔧 Environment Variables
+
+Create a `.env.local` file (copy `.env.example`):
+
+```env
+# Required for AI features
+GEMINI_API_KEY=your_gemini_api_key_here
+
+# Optional
+SOUNDCLOUD_CLIENT_ID=your_soundcloud_client_id
+```
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+1. Fork the repository
+2. Create your feature branch: `git checkout -b feature/my-feature`
+3. Commit your changes: `git commit -m 'feat: add my feature'`
+4. Push to the branch: `git push origin feature/my-feature`
+5. Open a Pull Request
+
+---
+
+## 📚 Documentation
+
+| Document | Description |
+|----------|-------------|
+| [Quick Start Guide](docs/Quick-Start-Guide.md) | Detailed setup walkthrough |
+| [Architecture Overview](docs/Architecture-Overview.md) | System design and tech stack |
+| [API Documentation](docs/API-Documentation.md) | Backend API reference |
+| [Platform Vision](docs/Platform-Vision.md) | Product roadmap and goals |
+| [FAQ](docs/FAQ.md) | Common questions and answers |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | Contribution guidelines |
+| [SECURITY.md](SECURITY.md) | Security policy |
+| [CHANGELOG.md](CHANGELOG.md) | Version history |
+| [CI/CD Docs](CI_CD_DOCS.md) | Pipeline documentation |
+
+---
+
+## 🏗️ Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Frontend | React 19, TypeScript, Vite 6, Tailwind CSS |
+| Backend | Node.js, Express.js, TypeScript |
+| AI Service | Python 3.12+, FastAPI, Google Gemini |
+| Build Tool | Vite |
+| Linting | ESLint, TypeScript ESLint |
+| CI/CD | GitHub Actions |
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🌐 Platform Vision
+
+VerseFlow's mission is to dismantle the barriers to entry in the music industry by providing emerging rap artists with a powerful, all-in-one suite of tools for creation, distribution, monetization, and community engagement.
+
+Read the full vision in [docs/Platform-Vision.md](docs/Platform-Vision.md).
+
+---
+
+<div align="center">
+  <strong>Built for independent artists. Powered by community. 🎤</strong><br/>
+  <a href="https://github.com/GizzZmo/VerseFlow/issues">Report a Bug</a> ·
+  <a href="https://github.com/GizzZmo/VerseFlow/discussions">Request a Feature</a> ·
+  <a href="docs/Quick-Start-Guide.md">Get Started</a>
+</div>
