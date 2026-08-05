@@ -28,6 +28,8 @@ server.use('/api', app);
 if (process.env.NODE_ENV === 'production') {
   server.use(express.static(path.join(__dirname, 'dist')));
 
+  // Serve the pre-built SPA for all non-API routes.
+  // The file path is hardcoded and not derived from the request, so there is no path-traversal risk.
   server.get('*', (_req, res) => {
     res.sendFile(path.join(__dirname, 'dist', 'index.html'));
   });
