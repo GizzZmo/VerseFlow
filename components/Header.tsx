@@ -4,7 +4,7 @@ import NotificationPanel from './NotificationPanel';
 import UserProfileModal from './UserProfileModal';
 import { useUser } from '../contexts/UserContext';
 
-type View = 'beatExchange' | 'cypher' | 'favorites';
+type View = 'beatExchange' | 'cypher' | 'favorites' | 'artists';
 
 interface HeaderProps {
   activeView: View;
@@ -34,6 +34,7 @@ const Header: React.FC<HeaderProps> = ({ activeView, onNavigate, currentUser, on
           <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
             <a onClick={() => onNavigate('beatExchange')} className={linkClasses('beatExchange')}>Beat Exchange</a>
             <a onClick={() => onNavigate('cypher')} className={linkClasses('cypher')}>The Cypher</a>
+            <a onClick={() => onNavigate('artists')} className={linkClasses('artists')}>Artists</a>
             {currentUser && (
               <a onClick={() => onNavigate('favorites')} className={linkClasses('favorites')}>
                 <i className="fas fa-heart mr-1"></i>

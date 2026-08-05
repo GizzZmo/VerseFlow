@@ -1,7 +1,7 @@
 
 import React, { useState, useCallback } from 'react';
 import { getBeatSuggestion } from '../services/geminiService';
-import { AiSuggestion } from '../types';
+import { AiSuggestion, AiSuggestionExtended } from '../types';
 import { BaseModal, Button, FormTextarea } from './ui';
 import { useAsyncOperation } from '../hooks';
 
@@ -13,7 +13,7 @@ interface AiSuggestionModalProps {
 
 const AiSuggestionModal: React.FC<AiSuggestionModalProps> = ({ isOpen, onClose, onApplySuggestion }) => {
   const [prompt, setPrompt] = useState('');
-  const { data: suggestion, isLoading, error, execute, reset } = useAsyncOperation<AiSuggestion>();
+  const { data: suggestion, isLoading, error, execute, reset } = useAsyncOperation<AiSuggestionExtended>();
 
   const handleGetSuggestion = useCallback(async () => {
     if (!prompt.trim()) {
@@ -25,7 +25,7 @@ const AiSuggestionModal: React.FC<AiSuggestionModalProps> = ({ isOpen, onClose, 
       if (!result) {
         throw new Error('Could not get a suggestion. The AI might be unavailable.');
       }
-      return result;
+      return result as AiSuggestionExtended;
     });
   }, [prompt, execute]);
 
@@ -80,8 +80,8 @@ const AiSuggestionModal: React.FC<AiSuggestionModalProps> = ({ isOpen, onClose, 
       )}
 
       {suggestion && (
-        <div className="p-6 border-t border-gray-700 bg-gray-900/50">
-          <h3 className="text-lg font-semibold text-center mb-4">AI Suggestion:</h3>
+        <div className="p-6 border-t border-gray-700 bg-gray-900/50 space-y-4">
+          <h3 className="text-lg font-semibold text-center">AI Suggestion:</h3>
           <div className="flex justify-around items-center text-center bg-gray-700/50 p-4 rounded-lg">
             <div>
               <p className="text-sm text-gray-400">BPM</p>
@@ -96,10 +96,35 @@ const AiSuggestionModal: React.FC<AiSuggestionModalProps> = ({ isOpen, onClose, 
               <p className="text-2xl font-bold text-purple-400">{suggestion.mood}</p>
             </div>
           </div>
+
+          {/* Extended info from local AI service */}
+          {suggestion.suggestedGenre && (
+            <div className="text-center">
+              <span className="inline-block bg-indigo-900/50 text-indigo-300 text-xs font-semibold px-3 py-1 rounded-full border border-indigo-700/50">
+                <i className="fas fa-music mr-1"></i>
+                {suggestion.suggestedGenre}
+              </span>
+            </div>
+          )}
+
+          {suggestion.reasoning && (
+            <p className="text-sm text-gray-400 italic text-center">
+              <i className="fas fa-lightbulb mr-2 text-yellow-400"></i>
+              {suggestion.reasoning}
+            </p>
+          )}
+
+          {suggestion.referenceArtists && suggestion.referenceArtists.length > 0 && (
+            <div className="text-center">
+              <p className="text-xs text-gray-500 mb-1">Reference Artists</p>
+              <p className="text-sm text-gray-300">{suggestion.referenceArtists.join(', ')}</p>
+            </div>
+          )}
+
           <Button
             onClick={handleApply}
             variant="success"
-            className="mt-4 w-full"
+            className="w-full"
           >
             Apply Filters
           </Button>
@@ -110,3 +135,4 @@ const AiSuggestionModal: React.FC<AiSuggestionModalProps> = ({ isOpen, onClose, 
 };
 
 export default AiSuggestionModal;
+
