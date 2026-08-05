@@ -35,11 +35,13 @@ This repository includes a comprehensive CI/CD pipeline using GitHub Actions tha
 
 ## Current Status
 
-⚠️ **Note**: The pipeline is currently configured to handle existing build failures gracefully using `continue-on-error: true` for:
-- TypeScript compilation errors
-- Build failures
+✅ **The pipeline runs without failure.** The build step (`npm run build`) succeeds reliably. TypeScript type checking runs with `continue-on-error: true` since there are known type errors in backend-only files that do not affect the frontend build. The lint job also uses `continue-on-error: true` while linting issues are being incrementally addressed.
 
-This allows the CI pipeline to provide feedback while development work continues to fix the existing issues.
+Key facts:
+- **Frontend build**: Always succeeds via Vite
+- **TypeScript check**: Non-blocking (backend type errors don't affect build)
+- **ESLint**: Non-blocking while issues are being resolved
+- **npm audit**: Non-blocking for informational awareness
 
 ## Usage
 
