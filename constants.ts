@@ -81,6 +81,9 @@ export const MOCK_TALENT_PROFILES: TalentProfile[] = [
     { id: 3, name: '808 Architect', avatar: 'https://i.pravatar.cc/150?u=808architect', skills: [Skill.Production, Skill.Mastering] },
     { id: 4, name: 'Mix Master Mike', avatar: 'https://i.pravatar.cc/150?u=mixmastermike', skills: [Skill.Mixing, Skill.Mastering] },
     { id: 5, name: 'Rhyme Schemer', avatar: 'https://i.pravatar.cc/150?u=rhymeschemer', skills: [Skill.Rapping] },
+    { id: 6, name: 'Bass Theorem', avatar: 'https://i.pravatar.cc/150?u=basstheorem', skills: [Skill.Production, Skill.Mixing] },
+    { id: 7, name: 'Soulful Sara', avatar: 'https://i.pravatar.cc/150?u=soulsara', skills: [Skill.Vocals, Skill.Songwriting] },
+    { id: 8, name: 'Vinyl Digger', avatar: 'https://i.pravatar.cc/150?u=vinyldigger', skills: [Skill.Production] },
 ];
 
 export const MOCK_PROJECTS: CollaborationProject[] = [

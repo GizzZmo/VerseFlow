@@ -88,4 +88,62 @@ export interface CollaborationProject {
     description: string;
     postedBy: number; // Corresponds to a TalentProfile id
     requiredSkills: Skill[];
+    status?: 'open' | 'in_progress' | 'completed';
+    createdAt?: string;
+    tags?: string[];
+}
+
+// Collaboration request sent from one user to another
+export interface CollaborationRequest {
+    id: number;
+    fromUserId: number;
+    toUserId: number;
+    projectId?: number;
+    message: string;
+    status: 'pending' | 'accepted' | 'declined';
+    createdAt: string;
+}
+
+// Direct message between two users
+export interface Message {
+    id: number;
+    fromUserId: number;
+    toUserId: number;
+    content: string;
+    createdAt: string;
+    read: boolean;
+}
+
+// Full artist profile (extends TalentProfile)
+export interface ArtistProfile extends TalentProfile {
+    bio?: string;
+    location?: string;
+    genres?: string[];
+    soundcloudUrl?: string;
+    instagramUrl?: string;
+    twitterUrl?: string;
+    openToCollaboration: boolean;
+    projectsPosted?: number[];
+    connections?: number[]; // user IDs of accepted collaborators
+}
+
+// API v1 response wrapper
+export interface ApiResponse<T> {
+    data: T;
+    error?: string;
+    status: number;
+}
+
+// Beat suggestion request for AI service
+export interface BeatSuggestionRequest {
+    prompt: string;
+    genre?: string;
+    referenceArtist?: string;
+}
+
+// Extended AI suggestion with reasoning
+export interface AiSuggestionExtended extends AiSuggestion {
+    reasoning?: string;
+    suggestedGenre?: string;
+    referenceArtists?: string[];
 }

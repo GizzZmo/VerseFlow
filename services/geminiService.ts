@@ -1,21 +1,41 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
-import { Mood, Key, AiSuggestion } from '../types';
+import { Mood, Key, AiSuggestion, AiSuggestionExtended, BeatSuggestionRequest } from '../types';
 
 const getGeminiService = () => {
   if (!process.env.API_KEY) {
-    // In a real app, you'd have a more robust way of handling this.
-    // For this example, we'll simulate an error state if the key is missing.
     console.error("API_KEY environment variable not set.");
     return null;
   }
   return new GoogleGenAI({ apiKey: process.env.API_KEY });
 };
 
+/**
+ * Falls back to the local AI service when Gemini is unavailable.
+ */
+const getAiServiceSuggestion = async (request: BeatSuggestionRequest): Promise<AiSuggestionExtended | null> => {
+  try {
+    const response = await fetch('http://localhost:8001/ai/suggest_beat/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(request),
+    });
+    if (!response.ok) return null;
+    const data = await response.json();
+    return data.suggestion as AiSuggestionExtended;
+  } catch {
+    return null;
+  }
+};
+
 export const getBeatSuggestion = async (prompt: string): Promise<AiSuggestion | null> => {
   const ai = getGeminiService();
+
+  // Try local AI service as fallback when Gemini key is missing
   if (!ai) {
-    throw new Error("Gemini AI Service not available. Please check your API key.");
+    const localSuggestion = await getAiServiceSuggestion({ prompt });
+    if (localSuggestion) return localSuggestion;
+    throw new Error("AI Service not available. Please check your API key or ensure the AI service is running.");
   }
 
   const model = "gemini-2.5-flash";
@@ -44,6 +64,10 @@ export const getBeatSuggestion = async (prompt: string): Promise<AiSuggestion | 
               description: 'The suggested mood or feeling for the track.',
               enum: Object.values(Mood),
             },
+            reasoning: {
+              type: Type.STRING,
+              description: 'A brief explanation of why these parameters were chosen.',
+            },
           },
           required: ["bpm", "key", "mood"],
         },
@@ -53,14 +77,17 @@ export const getBeatSuggestion = async (prompt: string): Promise<AiSuggestion | 
     const jsonText = response.text.trim();
     const suggestion = JSON.parse(jsonText);
 
-    // Basic validation
     if (suggestion.bpm && suggestion.key && suggestion.mood) {
-      return suggestion as AiSuggestion;
+      return suggestion as AiSuggestionExtended;
     } else {
       throw new Error("Invalid response structure from AI.");
     }
   } catch (error) {
-    console.error("Error fetching beat suggestion:", error);
+    console.error("Error fetching beat suggestion from Gemini:", error);
+    // Try local AI service as a secondary fallback
+    const localSuggestion = await getAiServiceSuggestion({ prompt });
+    if (localSuggestion) return localSuggestion;
     throw new Error("Failed to get a suggestion from the AI. Please try again.");
   }
 };
+

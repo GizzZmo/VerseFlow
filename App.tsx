@@ -1,13 +1,16 @@
+import React, { useState, useCallback } from 'react';
+import { UserProvider } from './contexts/UserContext';
 import Header from './components/Header';
 import BeatExchange from './components/BeatExchange';
 import CollaborationHub from './components/CollaborationHub';
 import FavoritesView from './components/FavoritesView';
+import ArtistDirectory from './components/ArtistDirectory';
 import AudioPlayer from './components/AudioPlayer';
-import { Beat, CurrentUser } from './types';
+import { Beat } from './types';
 import { signInWithSoundCloud } from './services/authService';
 import { useUser } from './contexts/UserContext';
 
-type View = 'beatExchange' | 'cypher' | 'favorites';
+type View = 'beatExchange' | 'cypher' | 'favorites' | 'artists';
 
 const AppContent: React.FC = () => {
   const [currentBeat, setCurrentBeat] = useState<Beat | null>(null);
@@ -64,6 +67,8 @@ const AppContent: React.FC = () => {
         );
       case 'cypher':
         return <CollaborationHub currentUser={currentUser} />;
+      case 'artists':
+        return <ArtistDirectory currentUser={currentUser} />;
       case 'favorites':
         return (
           <FavoritesView
